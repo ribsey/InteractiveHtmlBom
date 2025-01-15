@@ -23,10 +23,10 @@ if hasattr(pcbnew, 'Version'):
     KICAD_VERSION = version
 
 
-class PcbnewParser(EcadParser):
+class AltiumParser(EcadParser):
 
     def __init__(self, file_name, config, logger, board=None):
-        super(PcbnewParser, self).__init__(file_name, config, logger)
+        super(AltiumParser, self).__init__(file_name, config, logger)
         self.board = board
         if self.board is None:
             self.board = pcbnew.LoadBoard(self.file_name)  # type: pcbnew.BOARD
@@ -41,7 +41,7 @@ class PcbnewParser(EcadParser):
     def get_extra_field_data(self, file_name):
         if os.path.abspath(file_name) == os.path.abspath(self.file_name):
             return self.parse_extra_data_from_pcb()
-        if os.path.splitext(file_name)[1] == '.kicad_pcb':
+        if os.path.splitext(file_name)[1].lower() == '.pcbdoc':
             return None
 
         data = parse_schematic_data(file_name)

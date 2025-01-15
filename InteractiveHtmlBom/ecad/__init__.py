@@ -2,7 +2,7 @@ import os
 
 
 def get_parser_by_extension(file_name, config, logger):
-    ext = os.path.splitext(file_name)[1]
+    ext = os.path.splitext(file_name)[1].lower()
     if ext == '.kicad_pcb':
         return get_kicad_parser(file_name, config, logger)
     elif ext == '.json':
@@ -17,6 +17,8 @@ def get_parser_by_extension(file_name, config, logger):
             return get_easyeda_parser(file_name, config, logger)
     elif ext in ['.fbrd', '.brd']:
         return get_fusion_eagle_parser(file_name, config, logger)
+    elif ext == '.pcbdoc':
+        return get_altium_parser(file_name, config, logger)
     else:
         return None
 
@@ -39,3 +41,8 @@ def get_generic_json_parser(file_name, config, logger):
 def get_fusion_eagle_parser(file_name, config, logger):
     from .fusion_eagle import FusionEagleParser
     return FusionEagleParser(file_name, config, logger)
+
+
+def get_altium_parser(file_name, config, logger):
+    from .altium import AltiumParser
+    return AltiumParser(file_name, config, logger)
