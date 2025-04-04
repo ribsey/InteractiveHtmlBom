@@ -1,0 +1,2 @@
+class AltiumError(Exception):
+    pass
